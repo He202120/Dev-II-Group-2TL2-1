@@ -1,20 +1,26 @@
 #Librairies
+
 from datetime import datetime
 import os
 
 #définitions
-oN = True #Définit l'état du programme
+
+etatProg = True #Définit l'état du programme
 nextEnqueteId = 100 #L'identifiant de la prochaine enquête ajoutée
 idPrs = 10100 #L'identifiant de la prochaine personne ajoutée
 idPreu = 50100 #L'identifiant de la prochaine preuve ajoutée
 
+"""Cette fonction définit niveau de gravité d'une enquête, allant du niveau le plus bas 1 au niveau le plus haut 9."""
+
 def typeInit(value):
         if value >= 7:
-            return "Crime"
+            return "Crime" # Les crimes ont une gravité de 7 à 9
         elif value >= 4:
-            return "Délit"
+            return "Délit" # Les délits ont une gravité de 4 à 6
         else:
-            return "Infraction"
+            return "Infraction" # Les infractions ont une gravité 1 à 3
+
+"""permet de trier les tables correspondantes"""
 
 def trieEnquete(table):
     if table == []:
@@ -24,31 +30,34 @@ def trieEnquete(table):
         table_trieDate = sorted(table_trieGrav, key=lambda enquete: enquete.date,reverse=True)
         return table_trieDate[0]
 
+"""Cette fonction ajoute un nouvelle objet enquête basé sur la classe entityEnq"""
+
 def ajouter():
     global nextEnqueteId
-    vNom = input("Introduire un nom pour l'enquête.\n")
-    vGra = input("Introduire le niveau de 1 à 9 de la gravité du problème. 1 ==> Le plus bas / 9 ==> Le plus haut\n")
+    vNom = input("Introduire un nom pour l'enquête.\n") # Variable du nom
+    vGra = input("Introduire le niveau de 1 à 9 de la gravité du problème. 1 ==> Le plus bas / 9 ==> Le plus haut\n") # Variable du niveau de gravité
     if  int(vGra) > 9 or int(vGra) < 1:
         print(ValueError)
         return 0
     vDate = input("Introduire une date d'initialisation. Inscrivez la dans un format 'Jour-Mois-Année Heure:Minute:Seconde'\n")
-    listeEnq[nextEnqueteId] = [entityEnq(nextEnqueteId,vNom,int(vGra),vDate)]
-    listeEnq[nextEnqueteId].append(lieu("Pas encodé","Pas encodé","Pas encodé"))
-    listeEnq[nextEnqueteId].append([])
-    listeEnq[nextEnqueteId].append([])
+    listeEnq[nextEnqueteId] = [entityEnq(nextEnqueteId,vNom,int(vGra),vDate)] # Tableau de l'enquête
+    listeEnq[nextEnqueteId].append(lieu("Pas encodé","Pas encodé","Pas encodé")) # Tableau du lieu (données non-encodées)
+    listeEnq[nextEnqueteId].append([]) # Tableau préventif pour y introduire des ids de personnes
+    listeEnq[nextEnqueteId].append([]) # Tableau préventif pour y introduire des dictionnaires de preuves
     nextEnqueteId += 1
-    os.system("cls")
+    os.system("cls") # Fonction qui envoie une commande clear au terminal
     print("Enquête rajoutée avec succès.\n")
     
     
+"""Cette fonction efface une enquête enregistré ultérieurement"""
 
 def enlever():
-    vR = int(input("Introduire l'id de l'enquête à supprimer.\n"))
+    vR = int(input("Introduire l'id de l'enquête à supprimer.\n")) # Variable de l'id à supprimer
     if listeEnq == {}:
         os.system("cls")
         print("Il n'y a encore aucune enquête encoder.\n")
         return 0
-    if vR in listeEnq.keys():
+    if vR in listeEnq.keys(): # L'on cherche l'id dans le dictionnaire d'enquête
         del listeEnq[vR]
         os.system("cls")
         print("Enquête retirée avec succès.\n")
@@ -56,28 +65,32 @@ def enlever():
     os.system("cls")
     print("L'id donnée n'existe pas dans la table.\n")
 
+"""Cette fonction regroupe des appelles d'autres fonctions permettant de modifier divers données."""
+
 def modifier(num = 0):
-    mod = input("Modifier les données d'une enquête. (enquete (Num. d'enquête) - lieu (Num. d'enquête) - personne (Num. de personne) - preuve (Num. d'enquête))\n")
+    mod = input("Modifier les données d'une enquête. (enquete (id. d'enquête) - lieu (id. d'enquête) - personne (id. de personne) - preuve (id. d'enquête))\n")
     if mod == "enquete":
-        enqueteMod(int(num))
+        enqueteMod(int(num)) # Modification des données principale d'une enquête
     elif mod == "lieu":
-        lieuMod(int(num))
+        lieuMod(int(num)) # Modification du lieu de l'enquête
     elif mod == "personne":
-        newPers(int(num))
+        newPers(int(num)) # Modification des personnes
     elif mod == "preuve":
-        newPreuve(int(num))
+        newPreuve(int(num)) # Modification des preuves d'une enquêtes
     else:
         os.system("cls")
         print("Modification annulé.\n")
 
+"""Cette fonction modifie les données principale d'une enquête (1er tableau du dictionnaire listEnq)"""
+
 def enqueteMod(num):
-    if num not in listeEnq.keys():
+    if num not in listeEnq.keys(): # On regarde si l'id se trouve dans le dictionnaire d'enquête
         os.system("cls")
         print("Cette enquête n'existe pas.\n")
         return 0
-    mod = input("Paramètres globale ==> Nom - 1 / Niveau de gravité - 2 / Date - 3\n")
+    mod = input("Paramètres globale ==> Nom - 1 / Niveau de gravité - 2 / Date - 3\n") # L'on demande le paramètre à modifier
     if mod == "1":
-        mod = input("Introduire un nouveau nom. Tapez n'importe quoi d'autre pour annuler\n")
+        mod = input("Introduire un nouveau nom. Tapez n'importe quoi d'autre pour annuler\n") # Modification du nom
         if mod == "0":
             os.system("cls")
             print("Modification annulée.\n")
@@ -86,7 +99,7 @@ def enqueteMod(num):
         os.system("cls")
         print("Modification réussite.\n")
     elif mod == "2":
-        mod = input("Introduire un niveau de gravitez de 1 - 9 (1 est le moins important). Tapez 0 pour annuler\n")
+        mod = input("Introduire un niveau de gravitez de 1 - 9 (1 est le moins important). Tapez 0 pour annuler\n") # Modification de la gravité des faits
         if mod == "0":
             os.system("cls")
             print("Modification annulée.\n")
@@ -95,7 +108,7 @@ def enqueteMod(num):
         os.system("cls")
         print("Modification réussite.\n")
     elif mod == "3":
-        mod = input("Introduire une nouvelle date (Jour-Mois-Année Heure-Minute-Seconde). Tapez 0 pour annuler\n")
+        mod = input("Introduire une nouvelle date (Jour-Mois-Année Heure-Minute-Seconde). Tapez 0 pour annuler\n") # Modification de la date
         if mod == "0":
             os.system("cls")
             print("Modification annulée.\n")
@@ -107,20 +120,22 @@ def enqueteMod(num):
         os.system("cls")
         print("Modification annulé.\n")
 
+"""Cette fonction change les données représentant le lieu de l'enquête"""
+
 def lieuMod(num):
-    if num not in listeEnq.keys():
+    if num not in listeEnq.keys(): # On regarde si l'id se trouve dans le dictionnaire d'enquête
         os.system("cls")
         print("Cette enquête n'existe pas.\n")
         return 0
     print("Tapez ANNULER pour arrêter l'enregistrement et PASSER pour passer le paramètre.")
-    vVille = input("Introduire une ville.\n")
+    vVille = input("Introduire une ville.\n") # Variable du nom de la ville
     if vVille == "ANNULER":
         os.system("cls")
         print("Les modification ont été annuler.\n")
         return 0
     if vVille == "PASSER":
         vVille = "UNKNOWN"
-    vCode = input("Introduire le code postal.\n")
+    vCode = input("Introduire le code postal.\n") # Variable du code postal de la ville
     if vCode == "ANNULER":
         os.system("cls")
         print("Les modification ont été annuler.\n")
@@ -129,7 +144,7 @@ def lieuMod(num):
         vCode = 0
     else:
         vCode = int(vCode)
-    vRN = input("Introduire la rue (et le numéro).\n")
+    vRN = input("Introduire la rue (et le numéro).\n") # Variable de la rue et le numéro du lieu
     if vRN == "ANNULER":
         os.system("cls")
         print("Les modification ont été annuler.\n")
@@ -142,12 +157,17 @@ def lieuMod(num):
     os.system("cls")
     print("Nouvelle donnée enregistré.\n")
 
+"""Cette fonction gère les personnes dans le dictionnaire des personnes"""
+
 def newPers(num):
     tabD = []
     global idPrs
-    mod = input("Nouvelle enregistrement - 1 / Effacer un enregistrement - 2 / Associer un enregistrement - 3 / Désassocier une personne - 4\n")
+    mod = input("Nouvelle enregistrement - 1 / Effacer un enregistrement - 2 / Associer un enregistrement - 3 / Désassocier une personne - 4\n") # On choisit une option pour la personne
+
+    # Le mod "1" crée une nouvelle personne
+
     if mod == "1":
-        ph = ["Nom ?\n","Prenom ?\n","Age ?\n","Adresse domicile ?\n","Téléphone ?\n","Nationalité ?\n","Numéro d'identité ?\n"]
+        ph = ["Nom ?\n","Prenom ?\n","Age ?\n","Adresse domicile ?\n","Téléphone ?\n","Nationalité ?\n","Numéro d'identité ?\n"] # Variable phrase contenant des phrases à afficher
         print("Tapez ANNULER pour arrêter l'enregistrement et PASSER pour passer le paramètre.")
         for i in range(7):
             tabD.append(input(ph[i]))
@@ -159,60 +179,74 @@ def newPers(num):
         idPrs += 1
         os.system("cls")
         print("Enregistrement complet!\n")
+
+    # Le mod "2" efface une personne créée ultérieurement
+    
     elif mod == "2":
-        if num not in listePrs.keys():
+        if num not in listePrs.keys(): # On regarde si l'id se trouve dans le dictionnaire de personne
             os.system("cls")
             print("Cette personne n'existe pas.\n")
             return 0
-        ts = input(f"Etes-vous sûr de supprimer la personne id : {num}, Tapez YES pour continuer, n'importe quoi d'autre pour annuler.\n")
-        if ts == "YES":
-            del listePrs[num]
+        chx = input(f"Etes-vous sûr de supprimer la personne id : {num}, Tapez YES pour continuer, n'importe quoi d'autre pour annuler.\n") # Variable qui prend le choix de l'utilisateur
+        if chx == "YES":
+            del listePrs[num] # On efface la personne
             for i in listeEnq.keys():
                 if num in listeEnq[i][2]:
-                    del listeEnq[i][2][listeEnq[i][2].index(num)]
+                    del listeEnq[i][2][listeEnq[i][2].index(num)] # On efface pour toute enquête, la case dans le tableau 2 ayant l'id de la personne sélectionné
             os.system("cls")
             print("Personne effacer avec succès.\n")
             return 0
         os.system("cls")
         print("Modification annulée.\n")
+
+    # Le mod "3" associe une personne à une enquête
+
     elif mod == "3":
-        ts = input(f"Sélectionnez l'id de l'enquête à associer avec la personne id : {num}. Tapez ANNULER pour annuler.\n")
-        if ts == "ANNULER":
+        numEnq = input(f"Sélectionnez l'id de l'enquête à associer avec la personne id : {num}. Tapez ANNULER pour annuler.\n") # Variable qui contient (normalement) l'id de l'enquête sélectionné
+        if numEnq == "ANNULER":
             print("Action annulée.\n")
             return 0
-        if int(ts) not in listeEnq.keys():
+        if int(numEnq) not in listeEnq.keys(): # On regarde si l'id se trouve dans le dictionnaire d'enquête
             os.system("cls")
             print("Cette enquête n'existe pas.\n")
             return 0
-        ts = int(ts)
+        ts = int(numEnq)
         listeEnq[ts][2].append(num)
         os.system("cls")
         print(f"Personne associé avec l'enquête {ts}")
+
+    # Le mod "4" désassocie une personne d'une enquête
+
     elif mod == "4":
-        ts = input("Introduire l'enquête à désassocier de la personne. Tapez ANNULER pour annuler.\n")
-        if ts == "ANNULER":
+        numEnq = input("Introduire l'enquête à désassocier de la personne. Tapez ANNULER pour annuler.\n") # Variable qui contient (normalement) l'id de l'enquête sélectionné
+        if numEnq == "ANNULER":
             print("Action annulée.\n")
             return 0
-        if int(ts) not in listeEnq.keys():
+        if int(numEnq) not in listeEnq.keys(): # On regarde si l'id se trouve dans le dictionnaire d'enquête
             os.system("cls")
             print("Cette enquête n'existe pas.\n")
             return 0
-        ts = int(ts)
+        ts = int(numEnq)
         for j in range(len(listeEnq[ts][2])):
             if listeEnq[ts][2][j] == num:
-                listeEnq[ts][2].pop(int(j))
+                listeEnq[ts][2].pop(int(j)) # On enlève l'id de la personne du tableau
         os.system("cls")
         print("Personne désassocier.\n")
     else:
         os.system("cls")
         print("Modification annulez.\n")
 
+"""Cette fonction gère les preuves d'une enquête"""
+
 def newPreuve(num):
     tabP = []
     global idPreu
-    mod = input("Ajouter une preuve - 1 / Effacer une preuve - 2 / Réinitialiser - 3\n")
+    mod = input("Ajouter une preuve - 1 / Effacer une preuve - 2 / Réinitialiser - 3\n") # On enregistre la sélection dans une variable
+
+    # Le mod "1" ajoute une nouvelle preuve
+
     if mod == "1":
-        ph = ["Type de preuve ?\n","Pseudo ?\n","Date (Jour-Mois-Année Heure:Minute:Seconde)?\n"]
+        ph = ["Type de preuve ?\n","Pseudo ?\n","Date (Jour-Mois-Année Heure:Minute:Seconde)?\n"] # Variable phrase contenant des phrases à afficher
         print("Tapez ANNULER pour arrêter l'enregistrement et PASSER pour passer le paramètre.")
         for i in range(3):
             tabP.append(input(ph[i]))
@@ -220,16 +254,19 @@ def newPreuve(num):
                 print("Les modification ont été annuler.\n")
             if tabP[i] == "PASSER":
                 tabP[i] = "UNKNOWN"
-        listeEnq[num][3].append({idPreu : preuve(idPreu,tabP[0],tabP[1],tabP[2])})
+        listeEnq[num][3].append({idPreu : preuve(idPreu,tabP[0],tabP[1],tabP[2])}) # On enregistre la preuve dans un dictionnaire qui prendra la place d'une case dans le dernier tableau
         idPreu += 1
         os.system("cls")
         print("Enregistrement complet!\n")
+
+    # Le mod "2" efface une preuve existante
+
     elif mod == "2":
-        ts = input("Tapez l'id de la preuve à supprimer. Tapez ANNULER pour annuler.\n")
-        if ts == "ANNULER":
+        idEnq = input("Tapez l'id de la preuve à supprimer. Tapez ANNULER pour annuler.\n") # La variable avec l'id de la preuve à effacer
+        if idEnq == "ANNULER":
             print("Modification annulée.\n")
             return 0
-        ts = int(ts)
+        ts = int(idEnq)
         for i in range(len(listeEnq[num][3])):
             kr = listeEnq[num][3][i].keys()
             for j in kr:
@@ -237,6 +274,9 @@ def newPreuve(num):
                     kr = listeEnq[num][3].pop(i)
         os.system("cls")
         print("Preuve effacer.")
+
+    # Le mod "3" réinitialise le tableau des preuves
+
     elif mod == "3":
         ts = input("Etes-vous sûr de vouloir effacer toute les preuves de cette enquête? Tapez YES pour confirmer et n'importe quoi d'autre pour annuler.\n")
         if ts != "YES":
@@ -249,6 +289,8 @@ def newPreuve(num):
         os.system("cls")
         print("Modification annulez.\n")
 
+"""Cette fonction donne des options affichage d'enquête et de personnes"""
+
 def afficher():
     chx = input("Affichez la liste des enquêtes - 1 / Affichez la liste des personnes - 2\n")
     if chx == "1":
@@ -259,12 +301,14 @@ def afficher():
         os.system("cls")
         print("Retour au menu principale.\n")
 
+"""Cette fonction affiche la liste des enquêtes, une id supplémentaire demander permet d'afficher le lieu, les ids des personnes impliquées ainsi que les preuves"""
+
 def affEnq():
     if listeEnq == {}:
         print("Liste d'enquête vide.\n")
         return 0
     for i in listeEnq.keys():
-        print(listeEnq[i][0])
+        print(listeEnq[i][0]) # Affiche la liste des enquête
     chx = input("Introduisez l'id d'une enquête pour obtenir plus d'information. Tapez SORTIR pour revenir au menu principale.\n")
     if chx == "SORTIR":
         os.system("cls")
@@ -272,7 +316,7 @@ def affEnq():
         return 0
     else:
         chx = int(chx)
-        if chx not in listeEnq.keys():
+        if chx not in listeEnq.keys(): # On regarde si l'id se trouve dans le dictionnaire d'enquête
             os.system("cls")
             print("Cette enquête n'existe pas.\n")
             return 0
@@ -282,12 +326,14 @@ def affEnq():
         for i in listeEnq[chx][3]:
             for j in i.keys():
                 print(f"{i[j]}\n")
-        slp = input("Continuer ?")
+        slp = input("Continuer ?") # Variable pour attendre un retour au menu principale
         os.system("cls")
         return 0
 
+"""Affiche la liste des personnes"""
+
 def affPers():
-    if listePrs == {}:
+    if listePrs == {}: # On regarde si la liste est vide
         print("Liste des personnes vide.\n")
         return 0
     for i in listePrs.keys():
@@ -295,7 +341,7 @@ def affPers():
 
 
 def menuPrincipale():
-    global oN
+    global etatProg
     print("// // // // // // // // // // // // // // // // // // // // // // // // // // // // // //")
     print("//                      Unnamed software version 1.0                                   //")
     print("//                                                                                     //")
@@ -322,12 +368,15 @@ def menuPrincipale():
     elif opt == "afficher":
         afficher()
     elif opt == "OFF":
-        oN = False
+        etatProg = False
     else:
         os.system("cls")
         return 0
 
 #classes
+
+"""Cette classe définit un nouveau lieu"""
+
 class lieu():
     def __init__(self, ville = "", codePostal = "", rueNum = ""):
         self.__ville = ville
@@ -360,15 +409,17 @@ class lieu():
     def getRue(self, valeur):
         self.__rueNum = valeur
 
+"""Cette classe définit une personne (Suspect, inspecteur, etc.)"""
+
 class personne:
     def __init__(self, id, nom = "", prenom = "", age = 0, addr = "", tel = "", nationalite = "", idNationalite = ""):
         self.__nom = nom
         self.__prenom = prenom
         self.__age = age
-        self.__addr = addr
+        self.__addr = addr # Adresse de la personnes
         self.__tel = tel
-        self.__nation = nationalite
-        self.__identityCode = idNationalite
+        self.__nation = nationalite # Nom de la nationalité
+        self.__identityCode = idNationalite # numéro de registre de la carte d'identité
         self.__id = id
     def __str__(self):
         return f"Profil : {self.__id } / {self.__nom} {self.__prenom}\nAge : {self.__age}\nAdresse domicile : {self.__addr}\nTel. : {self.__tel}\nNationalité et code d'identité : {self.__nation} {self.__identityCode}\n"
@@ -419,9 +470,11 @@ class personne:
     def getIdC(self, valeur):
         self.__identityCode = valeur
 
+"""Cette classe définit une preuve"""
+
 class preuve():
     def __init__(self, id, type = "", pseudo = "", ddate = datetime.today().strftime('%d-%m-%y %H:%M:%S')):
-        self.__type = type
+        self.__type = type # Arme à feu / Arme blanche / outils / ...
         self.__pseudo = pseudo
         self.__date = ddate
         self.__pId = id
@@ -446,13 +499,14 @@ class preuve():
     def getDate(self, valeur):
         self.__date = valeur
 
+"""Cette classe définit les données principale d'une enquête (Un identifiant, un pseudo / nom, un niveau de gravité des faits et la date)"""
 
 class entityEnq(): #Création d'une classe entité d'enquête qui va regroupé les liens et informations sur une enquêtes
     def __init__(self, idEnq, enqNom, nivGravit, dateEnq = datetime.today().strftime('%d-%m-%y %H:%M:%S')):
         self.__enqNom = enqNom #Nom de l'enquête, un pseudo donné pour y avoir une idée
         self.__dateEnq = dateEnq #Date précise du délit commit
         self.__nivGravit = nivGravit #Niveau de gravité des faits
-        self.__typeEnq = typeInit(nivGravit)
+        self.__typeEnq = typeInit(nivGravit) # Type de gravité des faits (Crime, délit et infraction)
         self.__enqueteId = idEnq #Identifiant de l'enquête
     def __str__(self):
         return f"Nom de l'enquête : {self.__enqNom} \n Identifiant : {self.__enqueteId} \n Date : {self.__dateEnq} \n Gravité des faits : {self.__typeEnq} Nv.{self.__nivGravit}\n"
@@ -474,11 +528,12 @@ class entityEnq(): #Création d'une classe entité d'enquête qui va regroupé l
 
 #Dictionnaires
 
-listeEnq = {} #Dictionnaire des enquêtes
-listePrs = {} #Dictionnaire des personnes
+listeEnq = {} #Dictionnaire des enquêtes, la valeur d'une clé est un tableau divisé en 4 tableaux (l'enquête crée, son lieu, l'id des personnes impliquées, un tableau de dictionnaire de preuve).
+listePrs = {} #Dictionnaire des personnes, leurs ids sont peuvent être lié à une enquête.
 
 #Corps principale
-while oN:
+
+while etatProg:
     menuPrincipale()
 
-print("Fermeture du programme.")
+input("Fermeture du programme.")

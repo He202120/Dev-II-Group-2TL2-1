@@ -533,6 +533,7 @@ listePrs = {} #Dictionnaire des personnes, leurs ids sont peuvent être lié à 
 
 #Corps principale
 
+if __name__ == '__main__'
 while etatProg:
     menuPrincipale()
 

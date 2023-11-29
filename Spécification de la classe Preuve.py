@@ -20,7 +20,7 @@ class Preuve:
         Obtient le type d'une preuve en fonction du pseudo.
 
         PRE:
-            - Aucune condition préalable.
+            - Aucune.
         POST:
             - Renvoie le type d'une preuve.
         """
@@ -31,7 +31,7 @@ class Preuve:
         Obtient le nom d'une preuve en fonction du type.
 
         PRE:
-            - Aucune condition préalable.
+            - Aucune.
         POST:
             - Renvoie le nom de la preuve.
         """
@@ -54,7 +54,7 @@ class Preuve:
         Obtient l'id d'une preuve.
 
         PRE:
-            - Aucune condition préalable.
+            - Aucune.
         POST:
             - Renvoie l'id d'une preuve.
         """
@@ -65,7 +65,7 @@ class Preuve:
         Permet d'avoir le lieu où a été trouvée une preuve.
 
         PRE:
-            - Aucune condition préalable.
+            - Aucune.
         POST:
             - Renvoie une chaîne représentant le lieu.
         """

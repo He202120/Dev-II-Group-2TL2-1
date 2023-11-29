@@ -1,7 +1,6 @@
-from datetime import datetime
 
 class Preuve:
-    def __init__(self, id, type="", pseudo="", ddate=datetime.today().strftime('%d-%m-%y %H:%M:%S')):
+    def __init__(self, id, type="", pseudo="", date):
         """
         Initialise une instance de la classe Preuve.
 

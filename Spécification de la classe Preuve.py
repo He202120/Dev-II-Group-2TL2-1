@@ -1,73 +1,64 @@
-
 class Preuve:
-    def __init__(self, id, type="", pseudo="", date):
+    """
+    Classe représentant une preuve dans le cadre d'une enquête.
+
+    Cette classe permet de stocker différentes informations liées à une preuve.
+    """
+
+    def __init__(self, contexte="", notes="", type_preuve="", source="", liens=None):
         """
         Initialise une instance de la classe Preuve.
 
-        PRE:
-            - id, type, pseudo doivent être des types valides.
-            - Le format de date doit être "Jour-Mois-Année".
-        POST:
-            - Une instance de la classe Preuve est créée avec les attributs spécifiés.
+        PRE : Aucune.
+        POST : Crée une nouvelle preuve avec les informations spécifiées.
         """
-        self.__type = type
-        self.__pseudo = pseudo
-        self.__date = ddate
-        self.__pId = id
+        self.contexte = contexte
+        self.notes = notes
+        self.type_preuve = type_preuve
+        self.source = source
+        self.liens = liens or []
 
-    def get_type(self):
+    def contexte(self):
         """
-        Obtient le type d'une preuve en fonction du pseudo.
+        Récupère les informations sur le contexte de la preuve.
 
-        PRE:
-            - Aucune.
-        POST:
-            - Renvoie le type d'une preuve.
+        PRE : Aucune.
+        POST : Renvoie les informations enregistrées pour comprendre l'importance de la preuve dans le cadre de l'enquête.
         """
-        return self.__type
+        return self.contexte
 
-    def get_pseudo(self):
+    def notes(self):
         """
-        Obtient le nom d'une preuve en fonction du type.
+        Récupère les remarques, observations ou détails supplémentaires liés à la preuve.
 
-        PRE:
-            - Aucune.
-        POST:
-            - Renvoie le nom de la preuve.
+        PRE : Aucune.
+        POST : Renvoie des informations complémentaires si nécessaires dans le cadre de l'enquête.
         """
-        return self.__pseudo
+        return self.notes
 
-    def get_date(self):
+    def type_de_preuve(self):
         """
-        Obtient la date à laquelle on a ajouté la preuve en question.
+        Sélectionne le type de preuve parmi une liste de types prédéfinis.
 
-        PRE:
-            - Le format de date doit être "Jour-Mois-Année".
-        POST:
-            - Renvoie True si le format est respecté, False sinon.
+        PRE : Aucune.
+        POST : Enregistre le type de preuve pour faciliter la classification.
         """
-        # Implémentez le code pour vérifier le format de la date
-        pass
+        return self.type_preuve
 
-    def get_id(self):
+    def source(self):
         """
-        Obtient l'id d'une preuve.
+        Indique la personne, l'endroit ou l'entité qui a fourni ou généré la preuve.
 
-        PRE:
-            - Aucune.
-        POST:
-            - Renvoie l'id d'une preuve.
+        PRE : Aucune.
+        POST : Enregistre la source de la preuve pour assurer la traçabilité.
         """
-        return self.__pId
+        return self.source
 
-    def get_lieu(self):
+    def liens(self):
         """
-        Permet d'avoir le lieu où a été trouvée une preuve.
+        Inclut des références ou des liens valides vers d'autres données ou sources liées à la preuve.
 
-        PRE:
-            - Aucune.
-        POST:
-            - Renvoie une chaîne représentant le lieu.
+        PRE : Aucune.
+        POST : Permet de connecter la preuve à d'autres informations pertinentes.
         """
-        # Implémentez le code pour obtenir le lieu
-        pass
+        return self.liens

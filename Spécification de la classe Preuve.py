@@ -5,7 +5,7 @@ class Preuve:
     Cette classe permet de stocker différentes informations liées à une preuve.
     """
 
-    def __init__(self, contexte="", notes="", type_preuve="", source="", liens=None):
+    def __init__(self, contexte="", preuve_notes="", type_preuve="", source_preuve="", liens_preuve=None):
         """
         Initialise une instance de la classe Preuve.
 
@@ -13,10 +13,10 @@ class Preuve:
         POST : Crée une nouvelle preuve avec les informations spécifiées.
         """
         self.contexte = contexte
-        self.notes = notes
+        self.preuve_notes = preuve_notes
         self.type_preuve = type_preuve
-        self.source = source
-        self.liens = liens or []
+        self.source = source_preuve
+        self.liens = liens_preuve or []
 
     def contexte(self):
         """
@@ -27,14 +27,14 @@ class Preuve:
         """
         return self.contexte
 
-    def notes(self):
+    def preuve_notes(self):
         """
         Récupère les remarques, observations ou détails supplémentaires liés à la preuve.
 
         PRE : Aucune.
         POST : Renvoie des informations complémentaires si nécessaires dans le cadre de l'enquête.
         """
-        return self.notes
+        return self.preuve_notes
 
     def type_de_preuve(self):
         """
@@ -45,20 +45,20 @@ class Preuve:
         """
         return self.type_preuve
 
-    def source(self):
+    def source_preuve(self):
         """
         Indique la personne, l'endroit ou l'entité qui a fourni ou généré la preuve.
 
         PRE : Aucune.
         POST : Enregistre la source de la preuve pour assurer la traçabilité.
         """
-        return self.source
+        return self.source_preuve
 
-    def liens(self):
+    def liens_preuve(self):
         """
         Inclut des références ou des liens valides vers d'autres données ou sources liées à la preuve.
 
         PRE : Aucune.
         POST : Permet de connecter la preuve à d'autres informations pertinentes.
         """
-        return self.liens
+        return self.liens_preuve

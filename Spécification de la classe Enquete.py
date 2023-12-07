@@ -39,7 +39,7 @@ class Enquete:
         """
         return self.__niv_gravite
 
-    def get_date(self):
+    def get_date(self,date):
         """
         Obtient la date à laquelle on a ajouté l'enquête en question.
 

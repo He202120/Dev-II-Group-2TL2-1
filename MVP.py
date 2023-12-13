@@ -38,15 +38,12 @@ def trieEnquete(table):
 
 """Cette fonction ajoute un nouvelle objet enquête basé sur la classe entityEnq"""
 
-class NegativeParamException(Exception):
-    pass
-
 
 def ajouter():
     global nextEnqueteId
     vNom = input("Introduire un nom pour l'enquête.\n")  # Variable du nom
     if vNom == "":
-        raise NegativeParamException
+        raise ParamVideException
     vGra = input(
         "Introduire le niveau de 1 à 9 de la gravité du problème. 1 ==> Le plus bas / 9 ==> Le plus haut\n")  # Variable du niveau de gravité
     if int(vGra) > 9 or int(vGra) < 1:
@@ -430,7 +427,8 @@ def menuPrincipale():
 
 """Cette classe définit un nouveau lieu"""
 
-
+class ParamVideException(Exception):
+    pass
 class lieu():
     def __init__(self, codePostal="", ville="", rueNum="", nbrmaison=""):
         self.__ville = ville
@@ -568,7 +566,7 @@ class personne:
     def getmap(self):
         try:
             self.__addr.getmap(self.__id)
-        except NegativeParamException:
+        except ParamVideException:
             print("aucune latitude et longitude renseigné")
 
     @property
@@ -595,6 +593,13 @@ class personne:
     def getNom(self, valeur):
         if isinstance(valeur, str):
             self.__nom = valeur
+
+    @getAdrr.setter
+    def getAdrr(self,valeur):
+        if isinstance(valeur, object):
+            self.__addr = valeur
+        else:
+            raise ValueError("addresse renseignée n'est pas un objet")
 
     @getPrenom.setter
     def getPrenom(self, valeur):

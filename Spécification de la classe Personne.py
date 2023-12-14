@@ -1,4 +1,4 @@
-class Personne:
+class Personne(Date):
     def __init__(self, nom, prenom, date_naissance, id_nationalite, code_postal, rue, numero_maison):
         """
         Initialise une instance de la classe Personne.
@@ -8,6 +8,7 @@ class Personne:
         POST:
             - Une instance de la classe Personne est créée avec les attributs spécifiés.
         """
+        self.dateobj = Date.__init__(self.date_naissance)
         self.nom = nom
         self.prenom = prenom
         self.date_naissance = date_naissance
@@ -16,26 +17,30 @@ class Personne:
         self.rue = rue
         self.numero_maison = numero_maison
 
-    def set_age(self):
+    def set_age(self, jour_annif, mois_annif, annee_annif):
         """
-        Modifie la date de naissance d'une personne.( Grace à la classe Date)
+        Modifie la date de naissance d'une personne qui se trouve dans les attributs Jour, Mois, Année interne à l'objet dateobj de classe Date.
 
         PRE:
-            - Le format de date doit être "Jour-Mois-Année".
+            - 
         POST:
-            - Renvoie True si le format est respecté, False sinon.
+            - Modifie l'attribut dateobj qui est un objet de classe Date stocké dans l'objet courant par les paramètre de cette fonction jour_annif, mois_annif, annee_annif.
+        RAISES:
+            - Renvoie une erreur ParamExceptionError si les attributs ne respectent pas les conditions ou que la date se trouve dans le futur.
         """
         # Implémentez le code pour modifier la date de naissance
         pass
 
     def get_age(self):
         """
-        Obtient l'âge grâce à la date de naissance de la personne.
+        Calcule l'âge de la personne en utilisant la date actuelle et sa date de naissance.
 
         PRE:
-            - Aucun.
+            - Aucun
         POST:
-            - Renvoie l'âge de la personne.
+            - Renvoie un entier représentant l'âge de la personne calculé en années en utilisant les attributs Jour, Mois, Année et dateactuel stocké dans l'objet dateobj
+        RAISES:
+            - Renvoie une erreur ValueError si la date de naissance de la personne est dans le futur.
         """
         # Implémentez le code pour calculer l'âge
         pass

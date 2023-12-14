@@ -22,7 +22,7 @@ class Enquete:
         Obtient le type d'une enquête (infractions, délits, crimes) grâce au niveau de gravité.
 
         PRE:
-            - Aucune.
+            - Aucun.
         POST:
             - Renvoie le type d'une enquête.
         """
@@ -33,7 +33,7 @@ class Enquete:
         Permet de recevoir le degré de gravité.
 
         PRE:
-            - Aucune.
+            - Aucun.
         POST:
             - Renvoie le chiffre correspondant au niveau de gravité.
         """
@@ -51,12 +51,25 @@ class Enquete:
         # Implémentez le code pour vérifier le format de la date
         pass
 
+    def is_meme_addresse(self,autre):
+        """
+        Prends l'objet courant et un autre objet de la classe Enquete nous dit si les enquetes se trouvent dans la même ville
+        
+        PRE: 
+            - Aucun
+        POST:
+            -Renvoie une chaine avec l'id des deux enquetes et nous dis si elles sont dans la même ville ainsi que le nom de la ville
+        RAISES: 
+            -Renvoie une erreur ParamExceptionError si autre n'est pas un objet de la classe Enquete.
+
+        """
+    
     def get_id(self):
         """
         Obtient l'id d'une enquête.
 
         PRE:
-            - Aucune.
+            - Aucun.
         POST:
             - Renvoie l'id d'une enquête.
         """
@@ -67,7 +80,7 @@ class Enquete:
         Obtient la liste des preuves pour une enquête.
 
         PRE:
-            - Aucune.
+            - Aucun.
         POST:
             - Renvoie une liste de toutes les preuves pour une enquête.
         """

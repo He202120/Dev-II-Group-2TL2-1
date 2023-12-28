@@ -10,7 +10,7 @@ class Preuve:
         Initialise une instance de la classe Preuve.
 
         PRE : Aucune.
-        POST : Crée une nouvelle preuve avec les informations spécifiées.
+        POST : Crée une nouvelle preuve avec les informations spécifiées ..
         """
         self.contexte = contexte
         self.preuve_notes = preuve_notes

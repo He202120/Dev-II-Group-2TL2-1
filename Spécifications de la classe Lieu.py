@@ -4,8 +4,8 @@ class lieu():
         self.__codePostal = codePostal
         self.__rueNum = rueNum
         self.__nbrmaison = nbrmaison
-        self.__latitude = self.lat()
-        self.__longitude = self.long()
+        self.__latitude = 0
+        self.__longitude = None
 
     def __str__(self):
         return f"Ville : {self.__ville} \nCode postal : {self.__codePostal} \nRue et numéro : {self.__rueNum} {self.__nbrmaison}"
@@ -27,9 +27,13 @@ class lieu():
         return self.__nbrmaison
 
     @property
-    def set_Lat_Long(self):
-        self.__latitude = self.lat()
-        self.__longitude = self.long()
+    def get_lat(self):
+        return self.__latitude
+
+    @property
+    def get_long(self):
+        return self.__longitude
+
 
     @getVille.setter
     def getVille(self, valeur):
@@ -51,7 +55,7 @@ class lieu():
     def getNum(self, valeur):
         self.__nbrmaison = valeur
 
-    def lat(self):
+    def lat_long(self):
         """
         Va modifier les attributs latitude et la longitude d'un endroit grâce aux attributs nom de la ville, le nom de la rue, et le numéro de maison qui sont stocké dans l'objet courant.
 
@@ -79,47 +83,14 @@ class lieu():
 
             if location:
                 # Afficher les coordonnées
-                return location.latitude
+                self.__latitude = location.latitude
+                self.__longitude = location.longitude
             else:
                 return ""
 
         except Exception as e:
             print(f"Une erreur s'est produite : {e}")
 
-    def long(self):
-        """
-        Va modifier les attributs latitude et la longitude d'un endroit grâce aux attributs nom de la ville, le nom de la rue, et le numéro de maison qui sont stocké dans l'objet courant.
-
-        PRE:
-            - lors de l'initialisation, les attributs nom ville, nom rue et numero_maison doivent être correctement orthographiés et existés.
-        POST:
-            - Modifie l'objet courant pour y ajouter la latitude et la longitude d'un lieu dans leurs attributs respectifs.
-        RAISES:
-            -Renvoie une erreur ParamExceptionError si il y a une erreur dans les paramètres ou si aucun lieu n'a été trouvé.
-
-        """
-        # Initialiser le géocodeur Nominatim
-        geolocator = Nominatim(user_agent="mon_script",scheme="https")
-
-        nom_ville = self.__ville
-        nom_rue = self.__rueNum
-        numero_maison = self.__nbrmaison
-
-        try:
-            # Concaténer le nom de la ville, de la rue et le numéro de maison pour la recherche
-            adresse_complete = f"{numero_maison} {nom_rue}, {nom_ville}"
-
-            # Obtenir les coordonnées à partir de l'adresse complète
-            location = geolocator.geocode(adresse_complete)
-
-            if location:
-                # Afficher les coordonnées
-                return location.longitude
-            else:
-                return ""
-
-        except Exception as e:
-            print(f"Une erreur s'est produite : {e}")
 
     def getmapEnq(self, id):
         """

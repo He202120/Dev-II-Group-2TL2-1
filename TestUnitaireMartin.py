@@ -1,6 +1,10 @@
 import unittest
 from ClassProjet import *
+import os
 
+def fichier_existe(directory, filename):
+    file_path = os.path.join(directory, filename)
+    return os.path.exists(file_path)
 
 class TestEnqueteMethods(unittest.TestCase):
 
@@ -21,3 +25,54 @@ class TestEnqueteMethods(unittest.TestCase):
         person = personne()
         person.set_age("26-02-2002")
         self.assertEqual(person.get_age, 21, "Test age entre 2002 et aujourd'hui")
+
+    def test_lat_long(self):
+        lieux = lieu("1380", "Maransart", "Route de l'Etat", "285")
+        lieux.lat_long()
+        self.assertEqual(lieux.get_lat, 50.662037299999994, "Test lieu voir si la latitude est bien initialisé")
+        self.assertEqual(lieux.get_long, 4.462281610711313, "Test lieu voir si la longitude est bien initialisé")
+        lieux = lieu("1", "dsqdjsqds", "mvpvw", "55343")
+        self.assertRaises(MauvaiseValeurException, lieux.lat_long)  # Test avec un lieu qui n'existe pas
+
+    def test_fichier_person_map_existe(self):
+
+        lieux = lieu("1380", "Maransart", "Route de l'Etat", "285")
+        lieux.lat_long()
+        lieux.getmapPers("1")
+
+        dossier = "lieux-personnes/"
+        fichier = "2.html"
+
+        self.assertFalse(fichier_existe(dossier, fichier), "Le fichier n'existe pas dans le dossier renseigné")
+
+    def test_fichier_person_map_existe_pas(self):
+
+        dossier = "lieux-personnes/"
+        fichier = "1.html"
+
+        self.assertTrue(fichier_existe(dossier, fichier), "Le fichier existe dans le dossier renseigné")
+
+    def test_map_person_creer(self):
+        lieux = lieu("1", "dsqdjsqds", "mvpvw", "55343")
+        self.assertRaises(MauvaiseValeurException, lieux.getmapPers, 1)
+
+    def test_fichier_enquete_map_existe(self):
+        lieux = lieu("1380", "Maransart", "Route de l'Etat", "285")
+        lieux.lat_long()
+        lieux.getmapEnq("1")
+
+        dossier = "lieux-enquetes/"
+        fichier = "2.html"
+
+        self.assertFalse(fichier_existe(dossier, fichier), "Le fichier n'existe pas dans le dossier renseigné")
+
+    def test_fichier_enquete_map_existe_pas(self):
+        dossier = "lieux-enquetes/"
+        fichier = "1.html"
+
+        self.assertTrue(fichier_existe(dossier, fichier), "Le fichier existe dans le dossier renseigné")
+
+    def test_map_enquete_creer(self):
+        lieux = lieu("1", "dsqdjsqds", "mvpvw", "55343")
+        self.assertRaises(MauvaiseValeurException, lieux.getmapEnq, 1)
+

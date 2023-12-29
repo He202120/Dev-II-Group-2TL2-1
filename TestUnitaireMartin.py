@@ -2,6 +2,9 @@ import unittest
 from ClassProjet import *
 import os
 
+# Utilisation de la librairie os pour vérifier si le fichier html contenant la map
+# existe dans le dossier où il est créé.
+
 def fichier_existe(directory, filename):
     file_path = os.path.join(directory, filename)
     return os.path.exists(file_path)

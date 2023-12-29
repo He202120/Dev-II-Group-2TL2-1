@@ -118,7 +118,7 @@ class lieu():
 
     def getmapPers(self, id):
         """
-        Crée une carte du monde se focalisant sur les attributs latitude et la longitude stocké dans l'objet courant pour stocker la carte dans un fichier html.
+        Crée une carte du monde se focalisant sur les attributs latitude et la longitude stockées dans l'objet courant pour stocker la carte dans un fichier html.
 
         PRE:
             - Aucun.

@@ -5,7 +5,7 @@ class lieu():
         self.__rueNum = rueNum
         self.__nbrmaison = nbrmaison
         self.__latitude = 0
-        self.__longitude = None
+        self.__longitude = 0
 
     def __str__(self):
         return f"Ville : {self.__ville} \nCode postal : {self.__codePostal} \nRue et numéro : {self.__rueNum} {self.__nbrmaison}"
@@ -33,7 +33,6 @@ class lieu():
     @property
     def get_long(self):
         return self.__longitude
-
 
     @getVille.setter
     def getVille(self, valeur):
@@ -68,28 +67,25 @@ class lieu():
 
         """
         # Initialiser le géocodeur Nominatim
-        geolocator = Nominatim(user_agent="mon_script",scheme="https")
+        geolocator = Nominatim(user_agent="mon_script", scheme="https")
 
         nom_ville = self.__ville
         nom_rue = self.__rueNum
         numero_maison = self.__nbrmaison
 
-        try:
-            # Concaténer le nom de la ville, de la rue et le numéro de maison pour la recherche
-            adresse_complete = f"{numero_maison} {nom_rue}, {nom_ville}"
+        # Concaténer le nom de la ville, de la rue et le numéro de maison pour la recherche
+        adresse_complete = f"{numero_maison} {nom_rue}, {nom_ville}"
 
-            # Obtenir les coordonnées à partir de l'adresse complète
-            location = geolocator.geocode(adresse_complete)
+        # Obtenir les coordonnées à partir de l'adresse complète
+        location = geolocator.geocode(adresse_complete)
 
-            if location:
-                # Afficher les coordonnées
-                self.__latitude = location.latitude
-                self.__longitude = location.longitude
-            else:
-                return ""
+        if location:
+            # Afficher les coordonnées
+            self.__latitude = location.latitude
+            self.__longitude = location.longitude
+        else:
+            raise MauvaiseValeurException
 
-        except Exception as e:
-            print(f"Une erreur s'est produite : {e}")
 
 
     def getmapEnq(self, id):
@@ -103,7 +99,7 @@ class lieu():
         RAISES:
             -Renvoie une erreur NoLatLongError si l'objet courant ne possède pas de valeurs pour les attributs latitude et longitude.
         """
-        if self.__latitude != "":
+        if self.__latitude != 0:
             # Coordonné GPS (latitude, longitude) de l'emplacement souhaité
             latitude = self.__latitude
             longitude = self.__longitude
@@ -118,7 +114,7 @@ class lieu():
             ma_carte.save(f"lieux-enquetes/{id}.html")
             print("La map a bien été crée")
         else:
-            print("aucune latitude ou longitude n'ont été renseigné")
+            raise MauvaiseValeurException
 
     def getmapPers(self, id):
         """
@@ -131,7 +127,7 @@ class lieu():
         RAISES:
             -Renvoie une erreur NoLatLongError si l'objet courant ne possède pas de valeurs pour les attributs latitude et longitude.
         """
-        if self.__latitude != "":
+        if self.__latitude != 0:
             # Coordonné GPS (latitude, longitude) de l'emplacement souhaité
             latitude = self.__latitude
             longitude = self.__longitude
@@ -146,4 +142,4 @@ class lieu():
             ma_carte.save(f"lieux-personnes/{id}.html")
             print("La map a bien été crée")
         else:
-            print("aucune latitude ou longitude n'ont été renseigné")
+            raise MauvaiseValeurException

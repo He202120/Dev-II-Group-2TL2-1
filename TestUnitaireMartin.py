@@ -25,6 +25,8 @@ class TestEnqueteMethods(unittest.TestCase):
         person = personne()
         person.set_age("26-02-2002")
         self.assertEqual(person.get_age, 21, "Test age entre 2002 et aujourd'hui")
+        person.set_age("26-02-2023")
+        self.assertEqual(person.get_age, 0, "Test age entre 2002 et aujourd'hui")
 
     def test_lat_long(self):
         lieux = lieu("1380", "Maransart", "Route de l'Etat", "285")
@@ -76,3 +78,20 @@ class TestEnqueteMethods(unittest.TestCase):
         lieux = lieu("1", "dsqdjsqds", "mvpvw", "55343")
         self.assertRaises(MauvaiseValeurException, lieux.getmapEnq, 1)
 
+    def test_person_meme_ville(self):
+        martin_lieux = lieu("1380", "Maransart", "Route de l'Etat", "285")
+        martin = personne("martin", "charlier", martin_lieux)
+
+        zawil_lieux = lieu("1380", "Maransart", "Route de l'Etat", "285")
+        zawil = personne("martin", "charlier", zawil_lieux)
+
+        self.assertTrue(zawil == martin, "les personnes habite dans la même ville")
+
+    def test_person_diff_ville(self):
+        martin_lieux = lieu("1380", "Maransart", "Route de l'Etat", "285")
+        martin = personne("martin", "charlier", martin_lieux)
+
+        zawil_lieux = lieu("1380", "Liège", "Route de l'Etat", "285")
+        zawil = personne("zawill", "va", zawil_lieux)
+
+        self.assertFalse(zawil == martin, "les personnes habite dans la même ville")

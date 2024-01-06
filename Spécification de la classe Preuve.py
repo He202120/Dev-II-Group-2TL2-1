@@ -51,7 +51,9 @@ class Preuve:
 
         PRE : Aucune.
         POST : Enregistre la source de la preuve pour assurer la traçabilité.
+        RAISES : ValueError
         """
+
         return self.source_preuve
 
     def liens_preuve(self):

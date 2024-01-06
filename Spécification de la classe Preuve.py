@@ -62,5 +62,6 @@ class Preuve:
 
         PRE : Aucune.
         POST : Permet de connecter la preuve à d'autres informations pertinentes.
+        raise: valueError
         """
         return self.liens_preuve

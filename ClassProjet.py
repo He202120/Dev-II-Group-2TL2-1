@@ -459,6 +459,8 @@ class entityEnq():  # Création d'une classe entité d'enquête qui va regrouper
         self.__nivGravit = nivGravit  # Niveau de gravité des faits
         self.__typeEnq = self.typeInit()  # Type de gravité des faits (Crime, délit et infraction)
         self.__enqueteId = entityEnq.compteur  # Identifiant de l'enquête
+        self.__historique = []
+        self.addHistorique({'nom':self.__enqNom,'gravite':self.__nivGravit,'date':self.__dateEnq})
         entityEnq.compteur += 1
 
     def __str__(self):
@@ -492,6 +494,9 @@ class entityEnq():  # Création d'une classe entité d'enquête qui va regrouper
             return "Délit"  # Les délits ont une gravité de 4 à 6
         else:
             return "Infraction"  # Les infractions ont une gravité 1 à 3
+    
+    def addHistorique(self, dictionnaire):
+        self.__historique.append(dictionnaire)
 
 
     @property
@@ -509,6 +514,24 @@ class entityEnq():  # Création d'une classe entité d'enquête qui va regrouper
     @property
     def get_enq_date(self):
         return self.__dateEnq
+    
+    @property
+    def historique(self):
+        historique = ""
+        for i in range(len(self.__historique)-1,0,-1):
+            historique += ("\n\nEnquête modifié le "+self.__historique[i].get("date")+"\n")
+            if 'fnom' in self.__historique[i].keys():
+                historique += ("Ancien nom : "+self.__historique[i].get("fnom")+" ==> Nouveau nom : "+self.__historique[i].get("nom")+"\n")
+            elif 'fgravite' in self.__historique[i].keys():
+                historique += ("Gravité précédente : "+str(+self.__historique[i].get("fgravite"))+" ==> Gravité actuelle : "+str(self.__historique[i].get("gravite"))+"\n")
+            else:
+                historique += ("Nouvelle date : "+self.__historique[i].get("fdate")+" ==> Nouvelle date : "+self.__historique[i].get("ndate")+"\n")
+        
+        if "date" in self.__historique[0].keys():
+            historique += ("\nEnquête crée le "+self.__historique[0].get("date")+"\n")
+            historique += ("Nom : "+self.__historique[0].get("nom")+"\n")
+            historique += ("Gravite : "+str(self.__historique[0].get("gravite"))+"\n")
+        return historique
 
     @get_id_enq.setter
     def get_id_enq(self, id):

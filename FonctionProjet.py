@@ -2,7 +2,6 @@ from ClassProjet import *
 
 
 def ajouter():
-
     vNom = input("Introduire un nom pour l'enquête.\n")  # Variable du nom
     if vNom == "":
         raise NomVideException
@@ -52,6 +51,18 @@ def enlever():
         os.system("cls")
         raise MauvaisIdException
 
+def histoEnq():
+    try:
+        num = int(input("Introduire l'id de l'enquête pour voir son historique.\n"))
+    except ValueError:
+        raise MauvaisIdException
+    if num in listeEnq.keys():  # On regarde si l'id se trouve dans le dictionnaire d'enquête
+        os.system("cls")
+        print(listeEnq[num][0].historique)
+        input("Continuez ?")
+        os.system("cls")        
+    else:
+        print("Cette enquête n'existe pas")
 
 def enqueteMod():
     try:
@@ -74,6 +85,7 @@ def enqueteMod():
         nom = input("Introduire un nouveau nom. Tapez n'importe quoi d'autre pour annuler\n")  # Modification du nom
         if nom == "":
             raise NomVideException
+        listeEnq[num][0].addHistorique({'nom':nom,'fnom':listeEnq[num][0].get_enq_nom,'date':datetime.today().strftime('%d-%m-%y %H:%M:%S')})
         listeEnq[num][0].get_enq_nom = nom
         os.system("cls")
         print("Modification réussite.\n")
@@ -83,6 +95,7 @@ def enqueteMod():
         except ValueError:
             raise ParamVideException
         if 0 < int(num_grav) < 10:
+            listeEnq[num][0].addHistorique({'gravite':num_grav,'fgravite':listeEnq[num][0].get_niv_gravit,'date':datetime.today().strftime('%d-%m-%y %H:%M:%S')})
             listeEnq[num][0].get_niv_gravit = num_grav
         else:
             raise GraviteVideException
@@ -94,6 +107,7 @@ def enqueteMod():
             datetime.strptime(datem, "%d-%m-%Y")
         except ValueError:
             raise MauvaisDateException
+        listeEnq[num][0].addHistorique({'fdate':listeEnq[num][0].get_enq_date,'ndate':datem,'date':datetime.today().strftime('%d-%m-%y %H:%M:%S')})
         listeEnq[num][0].get_enq_date = datem
         os.system("cls")
         print("Modification réussite.\n")

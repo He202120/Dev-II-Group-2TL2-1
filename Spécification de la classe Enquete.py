@@ -5,7 +5,7 @@ class Enquete:
         Initialise une instance de la classe Enquete.
 
         PRE:
-            - id, type doivent être des types valides.
+            - id, type doivent être  des types valides.
             - niv_gravite doit être un nombre entier.
             - Le format de date doit être "Jour-Mois-Année".
         POST:

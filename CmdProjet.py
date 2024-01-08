@@ -21,6 +21,8 @@ class EnqueteShell(cmd.Cmd):
         //                                                                                     //
         // 'modifier' : Permet de modifier les données d'une enquête                           //
         //                                                                                     //
+        // 'historique' : Permet d'afficher l'historique d'une enquête                         //
+        //                                                                                     //
         //  Certaines fonctions nécessitent d'introduire l'id d'une enquête ou d'une personne  //
         //                                                                                     //
         // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
@@ -38,6 +40,13 @@ class EnqueteShell(cmd.Cmd):
         elif arg == "enlever":
             try:
                 enlever()
+            except MauvaisIdException:
+                os.system("cls")
+                print("L'id renseigné n'existe pas")
+        elif arg == "historique":
+            os.system("cls")
+            try:
+                histoEnq()
             except MauvaisIdException:
                 os.system("cls")
                 print("L'id renseigné n'existe pas")
